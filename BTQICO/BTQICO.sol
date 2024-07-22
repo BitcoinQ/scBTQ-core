@@ -44,12 +44,12 @@ contract BTQICO is Ownable {
             buyers.push(msg.sender);
         }
 
-        purchaseRecords[msg.sender] = PurchaseInfo({
-            bscAddress: msg.sender,
-            btqAddress: _btqAddress,
-            btqAmount: _btqAmount,
-            usdtAmount: usdtAmount
-        });
+        // Update the purchase record with new values, accumulating the existing values
+        PurchaseInfo storage info = purchaseRecords[msg.sender];
+        info.bscAddress = msg.sender;
+        info.btqAddress = _btqAddress;
+        info.btqAmount += _btqAmount;
+        info.usdtAmount += usdtAmount;
 
         totalUSDT += usdtAmount;
 
